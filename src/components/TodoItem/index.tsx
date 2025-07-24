@@ -24,16 +24,19 @@ const TodoItem: FC<IProps> = ({ todo, removeTodo, toggleTodo }) => {
                     checked={todo.completed}
                     onChange={() => toggleTodo(todo.id)}
                 />
-                <h3 className={classes.join(" ")}>
-                    {todo.title}
-                </h3>
+                <h3 className={classes.join(" ")}>{todo.title}</h3>
             </div>
-            <button
-                className={styles.rootDeleteButton}
-                onClick={() => removeTodo(todo.id)}
-            >
-                Delete
-            </button>
+            <div>
+                <button className={styles.rootEditButton}>
+                    Edit
+                </button>
+                <button
+                    className={styles.rootDeleteButton}
+                    onClick={() => removeTodo(todo.id)}
+                >
+                    Delete
+                </button>
+            </div>
         </div>
     );
 };
