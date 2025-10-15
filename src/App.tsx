@@ -1,56 +1,38 @@
 import { useState, type ChangeEvent } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
-import type { ITodo } from "./types";
+import { useAppDispatch } from "./redux/hooks";
+import { addTodo } from "./redux/todos/todoSlice";
 
 const App = () => {
-    const [title, setTitle] = useState("");
-    const [todos, setTodos] = useState<ITodo[]>([]);
+  const [title, setTitle] = useState("");
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value);
-    };
+  const dispatch = useAppDispatch();
 
-    const addTodo = (title: string) => {
-        if (!title.trim()) {
-            alert("Values should not be empty");
-        }
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
 
-        const newTodo = {
-            id: todos.length + 1,
-            title,
-            completed: false,
-        };
+  const handleAddTodo = (title: string) => {
+    if (!title.trim()) {
+      alert("Values should not be empty");
+    }
 
-        setTodos((prevTodos) => [...prevTodos, newTodo]);
-        setTitle("");
-    };
+    dispatch(addTodo(title));
 
-    const removeTodo = (id: number) => {
-        setTodos(todos.filter((todo) => todo.id !== id));
-    };
+    setTitle("");
+  };
 
-    const toggleTodo = (id: number) => {
-        setTodos(
-            todos.map((todo) => {
-                if (todo.id === id) {
-                    todo.completed = !todo.completed;
-                }
-                return todo;
-            })
-        );
-    };
-
-    return (
-        <div className="todo-wrapper">
-            <TodoForm
-                title={title}
-                handleChange={handleChange}
-                addTodo={addTodo}
-            />
-            <TodoList todos={todos} removeTodo={removeTodo} toggleTodo={toggleTodo} />
-        </div>
-    );
+  return (
+    <div className="todo-wrapper">
+      <TodoForm
+        title={title}
+        handleChange={handleChange}
+        addTodo={handleAddTodo}
+      />
+      <TodoList />
+    </div>
+  );
 };
 
 export default App;

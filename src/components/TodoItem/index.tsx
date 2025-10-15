@@ -1,41 +1,41 @@
 import { type FC } from "react";
 import type { ITodo } from "../../types";
 import styles from "./TodoItem.module.scss";
+import { useAppDispatch } from "../../redux/hooks";
+import { removeTodo, toggleTodo } from "../../redux/todos/todoSlice";
 
 interface IProps {
-    todo: ITodo;
-    removeTodo: (id: number) => void;
-    toggleTodo: (id: number) => void;
+  todo: ITodo;
 }
 
-const TodoItem: FC<IProps> = ({ todo, removeTodo, toggleTodo }) => {
-    const classes = [];
+const TodoItem: FC<IProps> = ({ todo }) => {
+    const dispatch = useAppDispatch()
 
-    if (todo.completed) {
-        classes.push("completed");
-    }
+  const classes = [];
 
-    return (
-        <div className={styles.root}>
-            <div>
-                <input
-                    type="checkbox"
-                    id="completed"
-                    checked={todo.completed}
-                    onChange={() => toggleTodo(todo.id)}
-                />
-                <h3 className={classes.join(" ")}>
-                    {todo.title}
-                </h3>
-            </div>
-            <button
-                className={styles.rootDeleteButton}
-                onClick={() => removeTodo(todo.id)}
-            >
-                Delete
-            </button>
-        </div>
-    );
+  if (todo.completed) {
+    classes.push("completed");
+  }
+
+  return (
+    <div className={styles.root}>
+      <div>
+        <input
+          type="checkbox"
+          id="completed"
+          checked={todo.completed}
+          onChange={() => dispatch(toggleTodo(todo.id))}
+        />
+        <h3 className={classes.join(" ")}>{todo.title}</h3>
+      </div>
+      <button
+        className={styles.rootDeleteButton}
+        onClick={() => dispatch(removeTodo(todo.id))}
+      >
+        Delete
+      </button>
+    </div>
+  );
 };
 
 export default TodoItem;

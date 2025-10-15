@@ -1,25 +1,21 @@
 import { type FC } from "react";
-import type { ITodo } from "../../types";
 import TodoItem from "../TodoItem";
+import { useAppSelector } from "../../redux/hooks";
 
-interface IProps {
-    todos: ITodo[];
-    removeTodo: (id: number) => void;
-    toggleTodo: (id: number) => void;
-}
+interface IProps {}
 
-const TodoList: FC<IProps> = ({ todos, removeTodo, toggleTodo }) => {
-    return (
-        <div>
-            {!todos.length ? (
-                <p>No todos</p>
-            ) : (
-                todos.map((item) => (
-                    <TodoItem todo={item} removeTodo={removeTodo} toggleTodo={toggleTodo} />
-                ))
-            )}
-        </div>
-    );
+const TodoList: FC<IProps> = () => {
+  const { list } = useAppSelector((state) => state.todos);
+
+  return (
+    <div>
+      {!list.length ? (
+        <p>No todos</p>
+      ) : (
+        list.map((item) => <TodoItem key={item.id} todo={item} />)
+      )}
+    </div>
+  );
 };
 
 export default TodoList;
