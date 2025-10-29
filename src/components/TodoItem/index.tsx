@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const TodoItem: FC<IProps> = ({ todo }) => {
-    const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const classes = [];
 
@@ -19,20 +19,22 @@ const TodoItem: FC<IProps> = ({ todo }) => {
 
   return (
     <div className={styles.root}>
-      <div>
-        <input
-          type="checkbox"
-          id="completed"
-          checked={todo.completed}
-          onChange={() => dispatch(toggleTodo(todo.id))}
-        />
-        <h3 className={classes.join(" ")}>{todo.title}</h3>
+      <div className={styles.content}>
+        <div className={styles.checkbox}>
+          <input
+            type="checkbox"
+            id={`todo-${todo.id}`}
+            checked={todo.completed}
+            onChange={() => dispatch(toggleTodo(todo.id))}
+          />
+        </div>
+        <h3 className={`${styles.title} ${classes.join(" ")}`}>{todo.title}</h3>
       </div>
       <button
-        className={styles.rootDeleteButton}
+        className={styles.deleteButton}
         onClick={() => dispatch(removeTodo(todo.id))}
       >
-        Delete
+        Удалить
       </button>
     </div>
   );
