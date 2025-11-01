@@ -1,13 +1,13 @@
 import { useState, type ChangeEvent } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
-import { useAppDispatch } from "./redux/hooks";
-import { addTodo } from "./redux/todos/todoSlice";
+import { useTodos } from "./store/useTodos";
 
 const App = () => {
   const [title, setTitle] = useState("");
 
-  const dispatch = useAppDispatch();
+  const addTodo = useTodos((state) => state.addTodo);
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -18,7 +18,7 @@ const App = () => {
       alert("Values should not be empty");
     }
 
-    dispatch(addTodo(title));
+    addTodo(title);
 
     setTitle("");
   };

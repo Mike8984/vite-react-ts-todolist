@@ -1,18 +1,19 @@
 import { type FC } from "react";
 import TodoItem from "../TodoItem";
-import { useAppSelector } from "../../redux/hooks";
+import { useTodos } from "../../store/useTodos";
 
 interface IProps {}
 
 const TodoList: FC<IProps> = () => {
-  const { list } = useAppSelector((state) => state.todos);
+
+  const todos = useTodos((state) => state.todos);
 
   return (
     <div>
-      {!list.length ? (
+      {!todos.length ? (
         <p>No todos</p>
       ) : (
-        list.map((item) => <TodoItem key={item.id} todo={item} />)
+        todos.map((item) => <TodoItem key={item.id} todo={item} />)
       )}
     </div>
   );

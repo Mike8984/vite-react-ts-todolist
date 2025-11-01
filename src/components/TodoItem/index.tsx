@@ -1,15 +1,15 @@
 import { type FC } from "react";
 import type { ITodo } from "../../types";
 import styles from "./TodoItem.module.scss";
-import { useAppDispatch } from "../../redux/hooks";
-import { removeTodo, toggleTodo } from "../../redux/todos/todoSlice";
+import { useTodos } from "../../store/useTodos";
 
 interface IProps {
   todo: ITodo;
 }
 
 const TodoItem: FC<IProps> = ({ todo }) => {
-  const dispatch = useAppDispatch();
+  const toggleTodo = useTodos((state) => state.toggleTodo);
+  const removeTodo = useTodos((state) => state.removeTodo);
 
   const classes = [];
 
@@ -25,14 +25,14 @@ const TodoItem: FC<IProps> = ({ todo }) => {
             type="checkbox"
             id={`todo-${todo.id}`}
             checked={todo.completed}
-            onChange={() => dispatch(toggleTodo(todo.id))}
+            onChange={() => toggleTodo(todo.id)}
           />
         </div>
         <h3 className={`${styles.title} ${classes.join(" ")}`}>{todo.title}</h3>
       </div>
       <button
         className={styles.deleteButton}
-        onClick={() => dispatch(removeTodo(todo.id))}
+        onClick={() => removeTodo(todo.id)}
       >
         Удалить
       </button>
